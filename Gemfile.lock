@@ -318,7 +318,7 @@ GEM
     gitlab (4.18.0)
       httparty (~> 0.18)
       terminal-table (>= 1.5.1)
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     gon (6.4.0)
       actionpack (>= 3.0.20)
@@ -767,7 +767,7 @@ GEM
     yajl-ruby (1.4.3)
     yard (0.9.28)
       webrick (~> 1.7.0)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.6)
 
 PLATFORMS
   ruby
