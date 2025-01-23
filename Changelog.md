@@ -1,12 +1,30 @@
 # 1.0.0 (unreleased)
 
+## Refactor
+
+## Bug fixes
+
+## Features
+
+# 0.9.1.0 (unreleased)
+
+## Refactor
+
+## Bug fixes
+* Fix processing for a specific set of uploaded images, like scenes full of snow, by allowing for a larger on-disk cache for ImageMagick [#8460](https://github.com/diaspora/diaspora/pull/8460)
+* Fix a bug with parsing certain OpenGraph metadata structures [#8463](https://github.com/diaspora/diaspora/pull/8463)
+
+## Features
+
+# 0.9.0.0
+
 ## New configuration file!
 
-We already recommended you to move to our new TOML based configuration file. With this release diaspora\* will no longer read the YAML based configuration file at `config/diaspora.yml`. If you have not yet done so, please copy `config/diaspora.toml.example` to `config/diaspora.toml` and migrate your configuration.
+Diaspora\* now uses TOML for the configuration file. We recommend you to migrate to this new format, as with the next major release (1.0) diaspora\* will no longer read the YAML based configuration file at `config/diaspora.yml`. To do so, please copy `config/diaspora.toml.example` to `config/diaspora.toml` and migrate your configuration.
 
 ## API!
 
-With the release of diaspora\* Version 1.0, we now officially support building applications on top of the diaspora\* API! Please check out [the official API documentation](https://diaspora.github.io/api-documentation/) for instructions, and please do file bugs if you notice something that could be improved!
+With the release of diaspora\* Version 0.9, we now officially support building applications on top of the diaspora\* API! Please check out [the official API documentation](https://diaspora.github.io/api-documentation/) for instructions, and please do file bugs if you notice something that could be improved!
 
 We are looking forward to seeing many creative applications!
 
@@ -34,9 +52,18 @@ With this release, we switched from `unicorn` to `puma` to run our applications.
 
 We use yarn to install the frontend dependencies now, so you need to have that installed. See here for how to install it: https://yarnpkg.com/en/docs/install
 
-## Suggested Ruby version: 3.1
+## Suggested Ruby version: 3.3
 
-We recommend setting up new pods using Ruby 3.1, and updating existing pods to this version as well. Ruby 2.7 is EOL and no longer supported.
+We recommend setting up new pods using Ruby 3.3, and updating existing pods to this version as well. Ruby 2.7 is EOL and no longer supported.
+
+## Changes to script/server for production pods
+
+If you're currently running your production pod with `./script/server` in a tmux or something similar, please be careful. We made some internal changes that result in the script no longer automatically restarting the server if it crashes - instead, it will just shut down. We strongly recommend running your pod using your system's unit manager, for example with [this systemd unit](https://wiki.diasporafoundation.org/Automatic_startup_methods#Recommended:_systemd).
+
+## Security
+
+* Fix a potential 2FA brute force attack ([CVE-2024-0227](https://github.com/devise-two-factor/devise-two-factor/security/advisories/GHSA-chcr-x7hc-8fp8)).
+  Thanks to Christian Reitter ([Radically Open Security](https://www.radicallyopensecurity.com/)) and Chris MacNaughton ([Centauri Solutions](https://centauri.solutions)).
 
 ## Refactor
 * Add bootstrapping for using ECMAScript 6 with automatic transpiling for compatibility [#7581](https://github.com/diaspora/diaspora/pull/7581) [#8397](https://github.com/diaspora/diaspora/pull/8397)
@@ -53,7 +80,9 @@ We recommend setting up new pods using Ruby 3.1, and updating existing pods to t
 * Drop `strip_exif` flag and always remove exif data from uploaded images [#8417](https://github.com/diaspora/diaspora/pull/8417)
 * Replace `apparition` with `cuprite` [#8418](https://github.com/diaspora/diaspora/pull/8418)
 * Remove `i18n-inflector-rails` for translations [#8420](https://github.com/diaspora/diaspora/pull/8420)
-* Add ruby 3.0 and 3.1 support [#8423](https://github.com/diaspora/diaspora/pull/8423) [#8426](https://github.com/diaspora/diaspora/pull/8426) [#8427](https://github.com/diaspora/diaspora/pull/8427)
+* Add ruby 3 support [#8423](https://github.com/diaspora/diaspora/pull/8423) [#8426](https://github.com/diaspora/diaspora/pull/8426) [#8427](https://github.com/diaspora/diaspora/pull/8427) [#8448](https://github.com/diaspora/diaspora/pull/8448)
+* Add CORS headers to nodeinfo endpoints to allow for client-side fetching [#8436](https://github.com/diaspora/diaspora/pull/8436)
+* Replace eye with foreman [#8449](https://github.com/diaspora/diaspora/pull/8449)
 
 ## Bug fixes
 * Fix multiple photos upload progress bar [#7655](https://github.com/diaspora/diaspora/pull/7655)
@@ -65,6 +94,8 @@ We recommend setting up new pods using Ruby 3.1, and updating existing pods to t
 * Cleanup duplicate pods in database [#8403](https://github.com/diaspora/diaspora/pull/8403)
 * Fix scrolling issue after closing photo viewer on photos page [#8404](https://github.com/diaspora/diaspora/pull/8404)
 * Filter unicode emojis from email headers [#8421](https://github.com/diaspora/diaspora/pull/8421)
+* Do not show disabled services anymore [#8406](https://github.com/diaspora/diaspora/pull/8406)
+* Update search endpoint to be aware of ignored users [#8363](https://github.com/diaspora/diaspora/pull/8363)
 
 ## Features
 * Add client-side cropping of profile image uploads [#7581](https://github.com/diaspora/diaspora/pull/7581)
@@ -79,6 +110,14 @@ We recommend setting up new pods using Ruby 3.1, and updating existing pods to t
 * Add info links to drawer in mobile UI [#8405](https://github.com/diaspora/diaspora/pull/8405)
 * Tell users that there is no help in mobile version, allow to switch to desktop [#8407](https://github.com/diaspora/diaspora/pull/8407)
 * Add Smart App Banner on iOS devices [#8409](https://github.com/diaspora/diaspora/pull/8409)
+* Add a more detailed modal when reporting a post or a comment [#8035](https://github.com/diaspora/diaspora/pull/8035)
+* Re-introduce likes on comments [#8203](https://github.com/diaspora/diaspora/pull/8203) [#8439](https://github.com/diaspora/diaspora/pull/8439) [#8442](https://github.com/diaspora/diaspora/pull/8442)
+* New redesigned registration page [#8285](https://github.com/diaspora/diaspora/pull/8285)
+* Allow comments to be fetched [#8441](https://github.com/diaspora/diaspora/pull/8441)
+
+# 0.7.18.2
+
+To avoid potential security issues, diaspora\* now makes sure that ImageMagick image processing always runs with a restricted `policy.xml`, regardless of the global system settings.
 
 # 0.7.18.1
 
